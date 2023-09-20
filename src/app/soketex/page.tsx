@@ -2,33 +2,25 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-var socket = io('ws://localhost:3001');
+// var socket = io('ws://localhost:3001');
 const App = () => {
   const [randomNumber, setRandomNumber] = useState(34);
-
-  useEffect(() => {
-    // Replace with your server URL
-
-    socket.on('connection', () => {
+  const [soket, setSoket] = useState<any>(undefined)
   
-      console.log("connected");
-    //   socket.on("new_msg", function(data) {
-    //     alert(data.msg);
-    // })
-    });
-    
-
-    return () => {
-      socket.disconnect(); // Clean up when the component unmounts
-    };
-  });
   useEffect(() => {
-    socket.on("message", (data) => {
-      // setMessageReceived(data.message);
-      console.log(data);
-      
-    });
-  }, [socket]);
+    console.log("hello");
+    
+    const soket=io('http://localhost:3001')
+    soket.on('connection',()=>{
+      console.log("soket connected"); 
+    })
+    soket.on('message',(data)=>{
+// console.log(data);
+    setRandomNumber(data)
+    })
+    setSoket(soket)
+  }, [])
+  
 
   return (
     <div>
